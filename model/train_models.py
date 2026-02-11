@@ -18,7 +18,7 @@ from evaluate import evaluate_model
 def main():
 
     # File path
-    data_path = "../data/bank-full.csv"
+    data_path = "data/bank-full.csv"
 
     # Load and split data
     X_train, X_test, y_train, y_test = load_and_split_data(data_path)
@@ -58,12 +58,15 @@ def main():
 
         results[model_name] = metrics
 
+        # Get directory where this script is located
+        MODEL_DIR = os.path.dirname(os.path.abspath(__file__))
+        
         # Save model
         filename = f"{model_name.lower().replace(' ', '_')}_model.pkl"
-        filepath = os.path.join(".", filename)
+        filepath = os.path.join(MODEL_DIR, filename)
 
         with open(filepath, "wb") as f:
-            pickle.dump(pipeline, f)
+             pickle.dump(pipeline, f)
 
     # Create comparison dataframe
     results_df = pd.DataFrame(results).T

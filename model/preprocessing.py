@@ -37,4 +37,17 @@ def create_preprocessor(X):
 
     # Identify column types
     categorical_cols = X.select_dtypes(include=['object']).columns
-    numerical_cols = X.select_
+    numerical_cols = X.select_dtypes(exclude=['object']).columns
+
+    # Column transformer
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('num', StandardScaler(), numerical_cols),
+            ('cat', OneHotEncoder(drop='first',
+                                  handle_unknown='ignore',
+                                  sparse_output=False), categorical_cols)
+        ]
+    )
+
+    return preprocessor
+ 
