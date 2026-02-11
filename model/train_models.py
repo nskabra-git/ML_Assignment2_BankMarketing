@@ -74,6 +74,21 @@ def main():
     print("\nModel Comparison:")
     print(results_df)
 
+    # Save clean test dataset (without target) for Streamlit download
+    # Save sample test data WITHOUT target
+    X_test_sample = X_test.copy()
+    sample_path = os.path.join(MODEL_DIR, "sample_test_data.csv")
+    X_test_sample.to_csv(sample_path, index=False)
+
+    print("\nSample test data saved for Streamlit.")
+
+    # Save sample test data WITH target
+    X_test_with_target = X_test.copy()
+    X_test_with_target['y'] = y_test
+    sample_with_target_path = os.path.join(MODEL_DIR, "sample_test_with_target.csv")
+    X_test_with_target.to_csv(sample_with_target_path, index=False)
+    
+    print("\nSample test datasets saved successfully.")
 
 if __name__ == "__main__":
     main()
