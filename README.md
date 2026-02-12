@@ -48,6 +48,9 @@ ML_Assignment2_BankMarketing/
 ├── requirements.txt
 ├── README.md
 │
+├── assets/
+│   └── bank_marketing_dataset.png
+|│
 ├── data/
 │   └── bank-full.csv
 │
