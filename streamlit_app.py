@@ -52,6 +52,27 @@ with left_col:
     st.subheader("Upload Test Dataset")
     uploaded_file = st.file_uploader("Upload Test Dataset (CSV)", type=["csv"])
 
+    #selected_model_name = st.selectbox(
+    #    "Select Model",
+    #    list(model_options.keys())
+    #)
+
+    #if os.path.exists(sample_file_path):
+    #    st.download_button(...)
+
+    #uploaded_file = st.file_uploader("Upload Test Dataset (CSV)", type=["csv"])
+
+    if "prediction_done" not in st.session_state:
+        st.session_state.prediction_done = False
+
+    if uploaded_file is not None:
+        if st.button("Run Prediction"):
+            st.session_state.prediction_done = True
+
+    #run_prediction = False
+    #if uploaded_file is not None:
+        #run_prediction = st.button("Run Prediction")
+
 
 with right_col:
 
@@ -159,7 +180,8 @@ if uploaded_file is not None:
     st.write("Data Preview:")
     st.dataframe(data.head())
 
-    if st.button("Run Prediction"):
+    #if uploaded_file is not None and run_prediction:
+    if uploaded_file is not None and st.session_state.prediction_done:
 
         model_path = model_options[selected_model_name]
 
@@ -180,20 +202,24 @@ if uploaded_file is not None:
         results_df = X_input.copy()
         results_df["Prediction"] = predictions
 
-        st.subheader("Prediction Preview (First 10 Rows)")
+        # Create two columns for heading + download button
+        left_side_col, right_side_col = st.columns([3, 1])
+
+        with left_side_col:
+            st.subheader("Prediction Preview (First 10 Rows)")
+
+        with right_side_col:
+            csv = results_df.to_csv(index=False).encode("utf-8")
+            st.download_button(
+                label="⬇ Download Full Prediction",
+                data=csv,
+                file_name="predictions.csv",
+                mime="text/csv",
+                key="download_predictions"
+            )
+
+        # Display preview table
         st.dataframe(results_df.head(10))
-        # st.write(predictions[:10])
-
-        # Download full predictions
-        csv = results_df.to_csv(index=False).encode("utf-8")
-
-        st.download_button(
-            label="Download Full Predictions",
-            data=csv,
-            file_name="predictions.csv",
-            mime="text/csv",
-            key="download_predictions"
-        )
 
         # If target exists → show evaluation
         if y_true is not None:
