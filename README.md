@@ -13,20 +13,6 @@ The target variable:
 
 ## 📊 Dataset
 
-Dataset: Bank Marketing Dataset (UCI)
-
-- Total records: 45,211
-- Features: 16 input features
-- Target: Binary classification (`yes` / `no`)
-- Class imbalance:
-  - No ≈ 88%
-  - Yes ≈ 12%
-
-Due to class imbalance, multiple evaluation metrics were used instead of relying only on accuracy.
-
----
-## 📊 Dataset
-
 ![Bank Marketing Dataset](assets/bank_marketing_dataset.png)
 
 - Target: Binary classification (`yes` / `no`)
@@ -50,7 +36,7 @@ ML_Assignment2_BankMarketing/
 │
 ├── assets/
 │   └── bank_marketing_dataset.png
-|│
+|
 ├── data/
 │   └── bank-full.csv
 │
