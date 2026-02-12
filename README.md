@@ -26,7 +26,9 @@ Due to class imbalance, multiple evaluation metrics were used instead of relying
 
 ---
 
-## 🏗 Project Structure
+## 📁 Project Structure
+
+```
 ML_Assignment2_BankMarketing/
 │
 ├── streamlit_app.py
@@ -34,21 +36,25 @@ ML_Assignment2_BankMarketing/
 ├── README.md
 │
 ├── data/
-│ └── bank-full.csv
+│   └── bank-full.csv
 │
 ├── notebooks/
-│ └── exploration.ipynb
+│   └── exploration.ipynb
 │
 ├── model/
-│ ├── preprocessing.py
-│ ├── evaluate.py
-│ ├── train_models.py
-│ ├── *.pkl models
-│ ├── sample_test_data.csv
-│ └── sample_test_with_target.csv
+│   ├── preprocessing.py
+│   ├── evaluate.py
+│   ├── train_models.py
+│   ├── logistic_regression_model.pkl
+│   ├── decision_tree_model.pkl
+│   ├── knn_model.pkl
+│   ├── naive_bayes_model.pkl
+│   ├── random_forest_model.pkl
+│   ├── xgboost_model.pkl
+│   ├── sample_test_data.csv
+│   └── sample_test_with_target.csv
+```
 
-
----
 
 ## ⚙️ Models Implemented
 
