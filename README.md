@@ -25,13 +25,18 @@ Dataset: Bank Marketing Dataset (UCI)
 Due to class imbalance, multiple evaluation metrics were used instead of relying only on accuracy.
 
 ---
-## 📊 Dataset Overview
+## 📊 Dataset
 
 ![Bank Marketing Dataset](assets/bank_marketing_dataset.png)
 
-<p align="center">
-  <img src="assets/bank_marketing_dataset.png" width="700">
-</p>
+- Target: Binary classification (`yes` / `no`)
+- Class imbalance:
+  - No ≈ 88%
+  - Yes ≈ 12%
+- Source: https://archive.ics.uci.edu/dataset/222/bank+marketing
+
+Due to class imbalance, multiple evaluation metrics were used instead of relying only on accuracy.
+
 ---
 
 ## 📁 Project Structure
