@@ -25,6 +25,14 @@ Dataset: Bank Marketing Dataset (UCI)
 Due to class imbalance, multiple evaluation metrics were used instead of relying only on accuracy.
 
 ---
+## 📊 Dataset Overview
+
+![Bank Marketing Dataset](assets/bank_marketing_dataset.png)
+
+<p align="center">
+  <img src="assets/bank_marketing_dataset.png" width="700">
+</p>
+---
 
 ## 📁 Project Structure
 
