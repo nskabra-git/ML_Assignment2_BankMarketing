@@ -103,6 +103,17 @@ Accuracy alone was not sufficient due to class imbalance.
 - Tree-based ensemble methods (Random Forest, XGBoost) handled class imbalance better than simple models.
 - Accuracy alone would have been misleading due to the 88/12 class distribution.
 
+## 📊 Model-wise Performance Observations
+
+| ML Model Name | Observation about model performance |
+|---------------|--------------------------------------|
+| **Logistic Regression** | Achieved strong AUC (0.908) and the highest Recall (~0.81), meaning it correctly identifies most subscribing clients. However, Precision is moderate, indicating more false positives. Suitable when minimizing missed potential subscribers is important. |
+| **Decision Tree** | Shows improved Accuracy compared to Logistic Regression but relatively low AUC (0.713), indicating weaker ranking ability. Tends to overfit and does not generalize as well as ensemble methods. |
+| **KNN** | Achieves high Accuracy but relatively low Recall, meaning it misses many actual subscribers. Performance is sensitive to class imbalance and feature scaling. Not ideal for this dataset. |
+| **Naive Bayes** | Provides balanced but moderate performance across metrics. Assumes feature independence, which may not hold in this dataset, leading to limited predictive strength compared to ensemble models. |
+| **Random Forest (Ensemble)** | Improves Accuracy and AUC significantly compared to single Decision Tree. Handles non-linear relationships well. However, Recall is lower than Logistic Regression, meaning it misses some subscribers. |
+| **XGBoost (Ensemble)** | Best overall performer with highest Accuracy (0.908), AUC (0.929), F1 Score, and MCC. Provides the best balance between Precision and Recall. Most robust model for this dataset. |
+
 ---
 
 ## 💻 Streamlit Application
@@ -128,13 +139,3 @@ https://2025aa05719-nitin-shriram-kabra-ml-assignment2.streamlit.app/
 ```bash
 pip install -r requirements.txt
 python -m streamlit run streamlit_app.py
-
-
-|        ML Model Name      | Accuracy |   AUC     | Precision | Recall   |  F1 Score |   MCC      |
-|---------------------------|---------:|----------:|----------:|---------:|----------:|-----------:|
-| Logistic Regression       | 0.845958 |  0.907837 | 0.418571  | 0.813800 |  0.552809 |  0.509131  |
-| Decision Tree             | 0.877695 |  0.713460 | 0.478261  | 0.499055 |  0.488437 |  0.419140  |
-| KNN                       | 0.896052 |  0.837260 | 0.593060  | 0.355388 |  0.444444 |  0.406696  |
-| Naive Bayes               | 0.863873 |  0.808785 | 0.428216  | 0.487713 |  0.456032 |  0.379655  |
-| Random Forest             | 0.904456 |  0.927197 | 0.655449  | 0.386578 |  0.486326 |  0.456080  |
-| XGBoost                   | 0.907995 |  0.929058 | 0.634845  | 0.502836 |  0.561181 |  0.514894  |
