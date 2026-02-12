@@ -25,6 +25,7 @@ sample_file_path = "model/sample_test_data.csv"
 left_col, right_col = st.columns([1, 2])
 with left_col:
     # st.header("User Controls")
+    st.subheader("User Controls")
 
     # Model Selection
     selected_model_name = st.selectbox(
@@ -53,12 +54,6 @@ with left_col:
 
 
 with right_col:
-
-    # st.header("Model Evaluation & Results")
-
-    # Default Evaluation Code Here
-
-# selected_model_name = st.selectbox("Select Model", list(model_options.keys()))
 
     # -----------------------------
     # Use Default Model for Evaluation - Default Evaluation Section
@@ -93,18 +88,22 @@ with right_col:
             classification_report
         )
 
-        col1, col2, col3 = st.columns(3)
-
-        col1.metric("Accuracy", round(accuracy_score(y_true_default, y_pred_default), 4))
-        col2.metric("Precision", round(precision_score(y_true_default, y_pred_default), 4))
-        col3.metric("Recall", round(recall_score(y_true_default, y_pred_default), 4))
-
-        col1.metric("F1 Score", round(f1_score(y_true_default, y_pred_default), 4))
-        col2.metric("MCC", round(matthews_corrcoef(y_true_default, y_pred_default), 4))
+        metrics_dict = {
+            "Accuracy": accuracy_score(y_true_default, y_pred_default),
+            "Precision": precision_score(y_true_default, y_pred_default),
+            "Recall": recall_score(y_true_default, y_pred_default),
+            "F1 Score": f1_score(y_true_default, y_pred_default),
+            "MCC": matthews_corrcoef(y_true_default, y_pred_default)
+        }
 
         if hasattr(default_model, "predict_proba"):
             y_prob_default = default_model.predict_proba(X_default)[:, 1]
-            col3.metric("AUC", round(roc_auc_score(y_true_default, y_prob_default), 4))
+            metrics_dict["AUC"] = roc_auc_score(y_true_default, y_prob_default)
+
+        metrics_df = pd.DataFrame(metrics_dict, index=["Value"]).T.round(3)
+
+        st.subheader("Evaluation Metrics")
+        st.dataframe(metrics_df)
 
         import matplotlib.pyplot as plt
         import seaborn as sns
@@ -117,8 +116,8 @@ with right_col:
             annot=True,
             fmt="d",
             cmap="Blues",
-            xticklabels=["No", "Yes"],
-            yticklabels=["No", "Yes"],
+            xticklabels=["No Subscription", "Subscribed"],
+            yticklabels=["No Subscription", "Subscribed"],
             ax=ax
         )
 
@@ -141,7 +140,13 @@ with right_col:
             output_dict=True
         )
 
-        report_df = pd.DataFrame(report_dict).transpose()
+        report_df = pd.DataFrame(report_dict).transpose().round(4)
+
+        # Improve readability of class labels
+        report_df = report_df.rename(index={
+            "0": "No Subscription",
+            "1": "Subscribed"
+        })
 
         st.dataframe(report_df)
 
