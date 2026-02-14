@@ -35,7 +35,12 @@ ML_Assignment2_BankMarketing/
 ├── README.md
 │
 ├── assets/
+│   └── 2025aa05719_ML_Assignment_2.docx
+│   └── 2025aa05719_ML_Assignment_2.pdf
+│   └── BITS_VirtualLab_ScreenShot1.jpg
+│   └── BITS_VirtualLab_ScreenShot2.jpg
 │   └── bank_marketing_dataset.png
+│   └── commands.txt
 |
 ├── data/
 │   └── bank-full.csv
