@@ -4,9 +4,16 @@ import pickle
 import os
 from sklearn.metrics import classification_report, confusion_matrix
 
-st.set_page_config(page_title="Bank Marketing App")
-
-st.title("Bank Marketing Classification App")
+st.set_page_config(
+    page_title="Bank Marketing Classification",
+    layout="wide"
+)
+st.markdown(
+    "<h1 style='text-align: center;'>Bank Marketing Classification App</h1>",
+    unsafe_allow_html=True
+)
+#st.set_page_config(page_title="Bank Marketing App")
+# st.title("Bank Marketing Classification App")
 
 # -----------------------------
 # Model Selection FIRST
@@ -80,151 +87,154 @@ with right_col:
     # Use Default Model for Evaluation - Default Evaluation Section
     # -----------------------------
     # st.subheader("Default Model Evaluation (Sample Test Dataset)")
-    st.subheader("Default Model - Evaluation Metrics")
 
-    default_data_path = "model/sample_test_with_target.csv"
+    if uploaded_file is None:
+        st.subheader("Default Model - Evaluation Metrics")
 
-    if os.path.exists(default_data_path):
+        default_data_path = "model/sample_test_with_target.csv"
 
-        default_data = pd.read_csv(default_data_path)
+        if os.path.exists(default_data_path):
 
-        y_true_default = default_data["y"]
-        X_default = default_data.drop("y", axis=1)
+            default_data = pd.read_csv(default_data_path)
 
-        default_model_path = model_options[selected_model_name]
+            y_true_default = default_data["y"]
+            X_default = default_data.drop("y", axis=1)
 
-        with open(default_model_path, "rb") as f:
-            default_model = pickle.load(f)
+            default_model_path = model_options[selected_model_name]
 
-        y_pred_default = default_model.predict(X_default)
+            with open(default_model_path, "rb") as f:
+                default_model = pickle.load(f)
 
-        from sklearn.metrics import (
-            accuracy_score,
-            roc_auc_score,
-            precision_score,
-            recall_score,
-            f1_score,
-            matthews_corrcoef,
-            confusion_matrix,
-            classification_report
-        )
+            y_pred_default = default_model.predict(X_default)
 
-        metrics_dict = {
-            "Accuracy": accuracy_score(y_true_default, y_pred_default),
-            "Precision": precision_score(y_true_default, y_pred_default),
-            "Recall": recall_score(y_true_default, y_pred_default),
-            "F1 Score": f1_score(y_true_default, y_pred_default),
-            "MCC": matthews_corrcoef(y_true_default, y_pred_default)
-        }
-
-        if hasattr(default_model, "predict_proba"):
-            y_prob_default = default_model.predict_proba(X_default)[:, 1]
-            metrics_dict["AUC"] = roc_auc_score(y_true_default, y_prob_default)
-
-        metrics_df = pd.DataFrame(metrics_dict, index=["Value"]).T.round(3)
-
-        st.subheader("Evaluation Metrics")
-        st.dataframe(metrics_df)
-
-        import matplotlib.pyplot as plt
-        import seaborn as sns
-       # st.subheader("Confusion Matrix")
-        cm = confusion_matrix(y_true_default, y_pred_default)
-
-        fig, ax = plt.subplots()
-        sns.heatmap(
-            cm,
-            annot=True,
-            fmt="d",
-            cmap="Blues",
-            xticklabels=["No Subscription", "Subscribed"],
-            yticklabels=["No Subscription", "Subscribed"],
-            ax=ax
-        )
-
-        ax.set_xlabel("Predicted")
-        ax.set_ylabel("Actual")
-        ax.set_title("Confusion Matrix")
-
-        st.pyplot(fig)
-        # st.write(confusion_matrix(y_true_default, y_pred_default))
-
-        # st.subheader("Classification Report")
-        # st.text(classification_report(y_true_default, y_pred_default))
-        from sklearn.metrics import classification_report
-
-        st.subheader("Classification Report")
-
-        report_dict = classification_report(
-            y_true_default,
-            y_pred_default,
-            output_dict=True
-        )
-
-        report_df = pd.DataFrame(report_dict).transpose().round(4)
-
-        # Improve readability of class labels
-        report_df = report_df.rename(index={
-            "0": "No Subscription",
-            "1": "Subscribed"
-        })
-
-        st.dataframe(report_df)
-
-# -----------------------------
-# Run Prediction
-# -----------------------------
-if uploaded_file is not None:
-
-    data = pd.read_csv(uploaded_file)
-    st.write("Data Preview:")
-    st.dataframe(data.head())
-
-    #if uploaded_file is not None and run_prediction:
-    if uploaded_file is not None and st.session_state.prediction_done:
-
-        model_path = model_options[selected_model_name]
-
-        with open(model_path, "rb") as f:
-            model = pickle.load(f)
-
-        # Separate target if present
-        if "y" in data.columns:
-            y_true = data["y"]
-            X_input = data.drop("y", axis=1)
-        else:
-            y_true = None
-            X_input = data
-
-        predictions = model.predict(X_input)
-
-        # Create full results dataframe
-        results_df = X_input.copy()
-        results_df["Prediction"] = predictions
-
-        # Create two columns for heading + download button
-        left_side_col, right_side_col = st.columns([3, 1])
-
-        with left_side_col:
-            st.subheader("Prediction Preview (First 10 Rows)")
-
-        with right_side_col:
-            csv = results_df.to_csv(index=False).encode("utf-8")
-            st.download_button(
-                label="⬇ Download Full Prediction",
-                data=csv,
-                file_name="predictions.csv",
-                mime="text/csv",
-                key="download_predictions"
+            from sklearn.metrics import (
+                accuracy_score,
+                roc_auc_score,
+                precision_score,
+                recall_score,
+                f1_score,
+                matthews_corrcoef,
+                confusion_matrix,
+                classification_report
             )
 
-        # Display preview table
-        st.dataframe(results_df.head(10))
+            metrics_dict = {
+                "Accuracy": accuracy_score(y_true_default, y_pred_default),
+                "Precision": precision_score(y_true_default, y_pred_default),
+                "Recall": recall_score(y_true_default, y_pred_default),
+                "F1 Score": f1_score(y_true_default, y_pred_default),
+                "MCC": matthews_corrcoef(y_true_default, y_pred_default)
+            }
 
-        # If target exists → show evaluation
-        if y_true is not None:
-            st.subheader("Classification Report")
-            st.text(classification_report(y_true, predictions))
+            if hasattr(default_model, "predict_proba"):
+                y_prob_default = default_model.predict_proba(X_default)[:, 1]
+                metrics_dict["AUC"] = roc_auc_score(y_true_default, y_prob_default)
 
+            metrics_df = pd.DataFrame(metrics_dict, index=["Value"]).T.round(3)
+
+            st.subheader("Evaluation Metrics")
+            st.dataframe(metrics_df)
+
+            import matplotlib.pyplot as plt
+            import seaborn as sns
             st.subheader("Confusion Matrix")
-            st.write(confusion_matrix(y_true, predictions))
+            cm = confusion_matrix(y_true_default, y_pred_default)
+
+            fig, ax = plt.subplots()
+            sns.heatmap(
+                cm,
+                annot=True,
+                fmt="d",
+                cmap="Blues",
+                xticklabels=["No Subscription", "Subscribed"],
+                yticklabels=["No Subscription", "Subscribed"],
+                ax=ax
+            )
+
+            ax.set_xlabel("Predicted")
+            ax.set_ylabel("Actual")
+            ax.set_title("Confusion Matrix")
+
+            st.pyplot(fig)
+            # st.write(confusion_matrix(y_true_default, y_pred_default))
+
+            # st.subheader("Classification Report")
+            # st.text(classification_report(y_true_default, y_pred_default))
+            from sklearn.metrics import classification_report
+
+            st.subheader("Classification Report")
+
+            report_dict = classification_report(
+                y_true_default,
+                y_pred_default,
+                output_dict=True
+            )
+
+            report_df = pd.DataFrame(report_dict).transpose().round(4)
+
+            # Improve readability of class labels
+            report_df = report_df.rename(index={
+                "0": "No Subscription",
+                "1": "Subscribed"
+            })
+
+            st.dataframe(report_df)
+
+    # -----------------------------
+    # Run Prediction
+    # -----------------------------
+    if uploaded_file is not None:
+
+        data = pd.read_csv(uploaded_file)
+        #st.write("Data Preview:")
+        st.subheader("Test Dataset Preview")
+        st.dataframe(data.head())
+
+        #if uploaded_file is not None and run_prediction:
+        if uploaded_file is not None and st.session_state.prediction_done:
+
+            model_path = model_options[selected_model_name]
+
+            with open(model_path, "rb") as f:
+                model = pickle.load(f)
+
+            # Separate target if present
+            if "y" in data.columns:
+                y_true = data["y"]
+                X_input = data.drop("y", axis=1)
+            else:
+                y_true = None
+                X_input = data
+
+            predictions = model.predict(X_input)
+
+            # Create full results dataframe
+            results_df = X_input.copy()
+            results_df["Prediction"] = predictions
+
+            # Create two columns for heading + download button
+            left_side_col, right_side_col = st.columns([3, 1])
+
+            with left_side_col:
+                st.subheader("Prediction Preview (First 10 Rows)")
+
+            with right_side_col:
+                csv = results_df.to_csv(index=False).encode("utf-8")
+                st.download_button(
+                    label="⬇ Download Full Prediction",
+                    data=csv,
+                    file_name="predictions.csv",
+                    mime="text/csv",
+                    key="download_predictions"
+                )
+
+            # Display preview table
+            st.dataframe(results_df.head(10))
+
+            # If target exists → show evaluation
+            if y_true is not None:
+                st.subheader("Classification Report")
+                st.text(classification_report(y_true, predictions))
+
+                st.subheader("Confusion Matrix")
+                st.write(confusion_matrix(y_true, predictions))
