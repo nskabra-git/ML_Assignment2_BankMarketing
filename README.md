@@ -30,10 +30,6 @@ Due to class imbalance, multiple evaluation metrics were used instead of relying
 ```
 ML_Assignment2_BankMarketing/
 │
-├── streamlit_app.py
-├── requirements.txt
-├── README.md
-│
 ├── assets/
 │   └── 2025aa05719_ML_Assignment_2.docx
 │   └── 2025aa05719_ML_Assignment_2.pdf
@@ -44,9 +40,6 @@ ML_Assignment2_BankMarketing/
 |
 ├── data/
 │   └── bank-full.csv
-│
-├── notebooks/
-│   └── exploration.ipynb
 │
 ├── model/
 │   ├── preprocessing.py
@@ -60,6 +53,13 @@ ML_Assignment2_BankMarketing/
 │   ├── xgboost_model.pkl
 │   ├── sample_test_data.csv
 │   └── sample_test_with_target.csv
+│
+├── notebooks/
+│   └── exploration.ipynb
+│
+├── streamlit_app.py
+├── requirements.txt
+├── README.md
 ```
 
 
